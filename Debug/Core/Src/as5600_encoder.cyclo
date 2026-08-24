@@ -1,0 +1,5 @@
+../Core/Src/as5600_encoder.c:18:17:AS5600_ReadRaw	2
+../Core/Src/as5600_encoder.c:37:19:AS5600_Encoder_Init	1
+../Core/Src/as5600_encoder.c:49:7:AS5600_ReadAngleDeg	1
+../Core/Src/as5600_encoder.c:56:7:AS5600_GetLinearAngleDeg	3
+../Core/Src/as5600_encoder.c:77:6:AS5600_Encoder_Reset	1

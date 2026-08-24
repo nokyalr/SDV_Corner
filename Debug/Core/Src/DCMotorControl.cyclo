@@ -1,0 +1,11 @@
+../Core/Inc/functionMath.h:15:21:map	1
+../Core/Src/DCMotorControl.c:60:6:PID_Init	1
+../Core/Src/DCMotorControl.c:80:6:motorRun_init	1
+../Core/Src/DCMotorControl.c:93:7:LPF_Update	1
+../Core/Src/DCMotorControl.c:100:7:PID_Compute	3
+../Core/Src/DCMotorControl.c:130:7:saturation	3
+../Core/Src/DCMotorControl.c:136:7:SMC	3
+../Core/Src/DCMotorControl.c:156:10:motordir	3
+../Core/Src/DCMotorControl.c:174:9:rpmSensorDir	3
+../Core/Src/DCMotorControl.c:187:7:speedSensor	1
+../Core/Src/DCMotorControl.c:192:6:motorRun	1
