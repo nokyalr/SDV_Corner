@@ -154,7 +154,7 @@ static void udpinit_thread(void *arg)
 static void led_command_thread(void *arg)
 {
     struct netbuf *command_buf = NULL;
-    char command[20];
+    char command[32];
     void *payload;
     u16_t payload_len;
     err_t err;
@@ -180,18 +180,50 @@ static void led_command_thread(void *arg)
         if (netconn_recv(led_conn, &command_buf) != ERR_OK || command_buf == NULL)
             continue;
 
+        const char *response = "ERR UNKNOWN COMMAND";
         if (netbuf_data(command_buf, &payload, &payload_len) == ERR_OK &&
             payload_len < sizeof(command))
         {
             memcpy(command, payload, payload_len);
             command[payload_len] = '\0';
 
-            if (strcmp(command, "LED ON") == 0)
+            if (strcmp(command, "PB0 ON") == 0)
+            {
+                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+            }
+            else if (strcmp(command, "PB0 OFF") == 0)
+            {
+                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+            }
+            else if (strcmp(command, "PB0 TOGGLE") == 0)
+            {
+                HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+            }
+            else if (strcmp(command, "LED ON") == 0)
                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
             else if (strcmp(command, "LED OFF") == 0)
                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
             else if (strcmp(command, "LED TOGGLE") == 0)
                 HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+
+            if (strcmp(command, "PB0 ON") == 0 ||
+                strcmp(command, "PB0 OFF") == 0 ||
+                strcmp(command, "PB0 TOGGLE") == 0 ||
+                strcmp(command, "LED ON") == 0 ||
+                strcmp(command, "LED OFF") == 0 ||
+                strcmp(command, "LED TOGGLE") == 0)
+            {
+                response = "OK";
+            }
+        }
+
+        struct netbuf *response_buf = netbuf_new();
+        if (response_buf != NULL)
+        {
+            netbuf_ref(response_buf, response, strlen(response));
+            netconn_sendto(led_conn, response_buf, netbuf_fromaddr(command_buf),
+                           netbuf_fromport(command_buf));
+            netbuf_delete(response_buf);
         }
 
         netbuf_delete(command_buf);

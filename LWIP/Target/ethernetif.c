@@ -30,6 +30,7 @@
 #include <string.h>
 #include "cmsis_os.h"
 #include "lwip/tcpip.h"
+#include "udpclient.h"
 
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
@@ -213,7 +214,7 @@ static void low_level_init(struct netif *netif)
   MACAddr[2] = 0xE1;
   MACAddr[3] = 0x00;
   MACAddr[4] = 0x00;
-  MACAddr[5] = 0x00;
+  MACAddr[5] = CORNER_FRAME_ID; /* last byte of MAC address is the corner frame ID */
   heth.Init.MACAddr = &MACAddr[0];
   heth.Init.MediaInterface = HAL_ETH_RMII_MODE;
   heth.Init.TxDesc = DMATxDscrTab;

@@ -1,7 +1,7 @@
 ../Core/Src/udpclient.c:75:6:HIL_ETH_ToggleMode	4	static
 ../Core/Src/udpclient.c:82:13:udpinit_thread	32	static
-../Core/Src/udpclient.c:154:13:led_command_thread	56	static
-../Core/Src/udpclient.c:203:6:udpsend	24	static
-../Core/Src/udpclient.c:211:6:udpsend_hex	24	static
-../Core/Src/udpclient.c:245:6:udpclient_init	16	static
-../Core/Src/udpclient.c:251:6:ledCommand_init	16	static
+../Core/Src/udpclient.c:154:13:led_command_thread	72	static
+../Core/Src/udpclient.c:235:6:udpsend	24	static
+../Core/Src/udpclient.c:243:6:udpsend_hex	24	static
+../Core/Src/udpclient.c:277:6:udpclient_init	16	static
+../Core/Src/udpclient.c:283:6:ledCommand_init	16	static

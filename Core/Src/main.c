@@ -809,6 +809,7 @@ void COM_init(void const * argument)
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
   udpclient_init();
+  ledCommand_init();
 
   // Wait for DHCP to obtain an address (if using DHCP)
   vTaskDelay(pdMS_TO_TICKS(2000));   // Adjust as needed
