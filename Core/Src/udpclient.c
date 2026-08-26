@@ -199,6 +199,11 @@ static void led_command_thread(void *arg)
             {
                 HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
             }
+            else if (strcmp(command, "PB0 STATUS") == 0)
+            {
+                /* Report the output state commanded by the STM32. */
+                response = (GPIOB->ODR & GPIO_PIN_0) ? "PB0 ON" : "PB0 OFF";
+            }
             else if (strcmp(command, "LED ON") == 0)
                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
             else if (strcmp(command, "LED OFF") == 0)
