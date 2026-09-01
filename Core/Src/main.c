@@ -860,7 +860,8 @@ void motor_init(void const * argument)
   for(;;)
   {
 //	motorRun(adcRPM_Reff, 0);
-	motorRun(tcs_output,0);
+  // motorRun(tcs_output, 0);
+  motorRunQt(motorQtControl ? motorQtReff : 0.0f);
 //	motorRun(t2s_reff, 0);
 
 	/*Time Delay*/

@@ -48,6 +48,7 @@ float pastRpm = 0.0f;
 float rpm_dot = 0.0f;
 float error;
 float rpmValue_init = 0.0f;
+float motorQtActualRpm = 0.0f;
 
 //Low Past Filter
 float alphaLPF = 0.05f;          // koefisien filter
@@ -187,6 +188,50 @@ int16_t rpmSensorDir(float rpmDirection, float dir)
 float speedSensor()
 {
 	return spdValue;
+}
+
+float motorQtGetActualRpm(void)
+{
+    return motorQtActualRpm;
+}
+
+void motorRunQt(float rpmReference)
+{
+    static int32_t previousCounter = 0;
+    int32_t currentCounter = __HAL_TIM_GET_COUNTER(p_htim);
+    int32_t deltaCounter = currentCounter - previousCounter;
+
+    motorQtActualRpm = (float)(abs(deltaCounter) * 60 * 1000) /
+                       (float)(COUNTS_PER_REVOLUTION * SAMPLING_TIME_MS);
+    if (rpmReference < 0.0f)
+        motorQtActualRpm = -motorQtActualRpm;
+    else if (rpmReference == 0.0f)
+        motorQtActualRpm = 0.0f;
+    previousCounter = currentCounter;
+
+    if (rpmReference > 120.0f)
+        rpmReference = 120.0f;
+    else if (rpmReference < -120.0f)
+        rpmReference = -120.0f;
+
+    if (rpmReference > 0.0f)
+    {
+        HAL_GPIO_WritePin(IN1_GPIO_Port, IN1_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(IN2_GPIO_Port, IN2_Pin, GPIO_PIN_RESET);
+    }
+    else if (rpmReference < 0.0f)
+    {
+        HAL_GPIO_WritePin(IN1_GPIO_Port, IN1_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(IN2_GPIO_Port, IN2_Pin, GPIO_PIN_SET);
+        rpmReference = -rpmReference;
+    }
+    else
+    {
+        HAL_GPIO_WritePin(IN1_GPIO_Port, IN1_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(IN2_GPIO_Port, IN2_Pin, GPIO_PIN_RESET);
+    }
+
+    TIM1->CCR1 = (uint16_t)((rpmReference * 1000.0f) / 120.0f);
 }
 
 void motorRun(float reffValue, float initialCondition)

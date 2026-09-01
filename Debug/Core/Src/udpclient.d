@@ -91,7 +91,8 @@ Core/Src/udpclient.o: ../Core/Src/udpclient.c \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h \
- ../Core/Inc/functionMath.h ../Core/Inc/udpclient.h
+ ../Core/Inc/functionMath.h ../Core/Inc/udpclient.h \
+ ../Core/Inc/DCMotorControl.h ../Core/Inc/main.h
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
@@ -187,3 +188,5 @@ Core/Src/udpclient.o: ../Core/Src/udpclient.c \
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h:
 ../Core/Inc/functionMath.h:
 ../Core/Inc/udpclient.h:
+../Core/Inc/DCMotorControl.h:
+../Core/Inc/main.h:

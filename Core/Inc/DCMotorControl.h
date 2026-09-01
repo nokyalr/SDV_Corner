@@ -40,6 +40,8 @@ typedef struct
 
 //USER FUNCTION
 void motorRun(float reffValue, float initialCondition);
+void motorRunQt(float rpmReference);
+float motorQtGetActualRpm(void);
 void motorRun_init(TIM_HandleTypeDef *htim);
 float speedSensor();
 

@@ -21,8 +21,11 @@
 #include "functionMath.h"
 
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "main.h"
 #include "udpclient.h"
+#include "DCMotorControl.h"
 
 /* ===================== Static Objects ===================== */
 static struct netconn *conn;
@@ -52,6 +55,8 @@ float data_Steer_Wheel = 0.0f;
 uint32_t timestamp = 0;
 int32_t data_Mzd = 0;
 uint16_t adcData = 0;
+volatile uint8_t motorQtControl = 0;
+volatile float motorQtReff = 0.0f;
 
 //Latency
 int Latency = 0;
@@ -180,6 +185,7 @@ static void led_command_thread(void *arg)
         if (netconn_recv(led_conn, &command_buf) != ERR_OK || command_buf == NULL)
             continue;
 
+        char responseBuffer[48];
         const char *response = "ERR UNKNOWN COMMAND";
         if (netbuf_data(command_buf, &payload, &payload_len) == ERR_OK &&
             payload_len < sizeof(command))
@@ -204,7 +210,45 @@ static void led_command_thread(void *arg)
                 /* Report the output state commanded by the STM32. */
                 response = (GPIOB->ODR & GPIO_PIN_0) ? "PB0 ON" : "PB0 OFF";
             }
-            else if (strcmp(command, "LED ON") == 0)
+            else if (strcmp(command, "MOTOR STATUS") == 0)
+            {
+                snprintf(responseBuffer, sizeof(responseBuffer),
+                         "MOTOR STATUS %ld %ld",
+                         (long)motorQtReff,
+                         (long)motorQtGetActualRpm());
+                response = responseBuffer;
+            }
+            else
+            {
+                char *endPtr = NULL;
+                float requestedRpm = 0.0f;
+                if (strcmp(command, "MOTOR AUTO") == 0)
+                {
+                    motorQtControl = 0;
+                    response = "OK";
+                }
+                else if (strncmp(command, "MOTOR ", 6) == 0)
+                {
+                    if (strcmp(command, "MOTOR STOP") == 0)
+                    {
+                        motorQtReff = 0.0f;
+                        motorQtControl = 1;
+                        response = "OK";
+                    }
+                    else
+                    {
+                        requestedRpm = strtof(command + 6, &endPtr);
+                        if (endPtr != command + 6 && *endPtr == '\0' &&
+                            requestedRpm >= -120.0f && requestedRpm <= 120.0f)
+                        {
+                            motorQtReff = requestedRpm;
+                            motorQtControl = 1;
+                            response = "OK";
+                        }
+                    }
+                }
+            }
+            if (strcmp(command, "LED ON") == 0)
                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
             else if (strcmp(command, "LED OFF") == 0)
                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);

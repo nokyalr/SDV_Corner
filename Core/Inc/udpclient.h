@@ -24,8 +24,8 @@
 #define MATLAB_PORT	4095
 #define LED_COMMAND_PORT 5055
 
-#define CORNER_PORT			CORNER_PORT_FR
-#define CORNER_FRAME_ID		CORNER_FRAME_ID_FR
+#define CORNER_PORT			CORNER_PORT_RL
+#define CORNER_FRAME_ID		CORNER_FRAME_ID_RL
 
 #if (CORNER_PORT == CORNER_PORT_FL) || (CORNER_PORT == CORNER_PORT_FR)
 	#define FRONT_WHEEL
@@ -170,6 +170,9 @@ extern float data_Steer_Wheel;
 extern int32_t data_Mzd;
 extern uint16_t adcData;
 extern uint32_t timestamp;
+
+extern volatile uint8_t motorQtControl;
+extern volatile float motorQtReff;
 
 extern uint16_t sequence;
 extern int Latency;

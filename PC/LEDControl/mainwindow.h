@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QString>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +25,8 @@ private:
     QWidget *createDiagnosticsPage();
     QWidget *createHistoryPage();
     void sendCommand(const QString &command);
+    void sendMotorCommand(double rpm);
+    void requestMotorStatus();
     void requestStatus();
     void readReply();
     void addHistoryEntry(const QString &message);
@@ -32,6 +35,9 @@ private:
     class QUdpSocket *udpSocket;
     class QComboBox *ipSelector;
     class QLabel *statusLabel;
+    class QLabel *motorStatusLabel;
+    class QDoubleSpinBox *rpmInput;
+    QTimer *motorStatusTimer;
     class QLabel *dashboardConnectionLabel;
     class QLabel *dashboardLedLabel;
     class QTextEdit *historyData;
