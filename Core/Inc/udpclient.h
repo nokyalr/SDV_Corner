@@ -24,8 +24,8 @@
 #define MATLAB_PORT	4095
 #define LED_COMMAND_PORT 5055
 
-#define CORNER_PORT			CORNER_PORT_RL
-#define CORNER_FRAME_ID		CORNER_FRAME_ID_RL
+#define CORNER_PORT			CORNER_PORT_FR
+#define CORNER_FRAME_ID		CORNER_FRAME_ID_FR
 
 #if (CORNER_PORT == CORNER_PORT_FL) || (CORNER_PORT == CORNER_PORT_FR)
 	#define FRONT_WHEEL
@@ -157,6 +157,10 @@ void HIL_ETH_ToggleMode(void);
 void udpsend_hex(const void *data, uint16_t len);
 void udpReceive(void);
 void HIL_ETH_Init(void);
+
+/* ============ Qt STEPPER CONTROL ============ */
+extern volatile uint8_t stepperQtControl;
+extern volatile float stepperQtAngle;
 
 extern EthMode_t currEthMode;
 extern uint16_t data1;

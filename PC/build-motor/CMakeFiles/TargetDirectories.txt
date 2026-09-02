@@ -1,0 +1,9 @@
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/LEDControl.dir
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/edit_cache.dir
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/rebuild_cache.dir
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/list_install_components.dir
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/install.dir
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/install/local.dir
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/install/strip.dir
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/LEDControl_autogen_timestamp_deps.dir
+C:/Users/pb123/Documents/Kuliah/pa/stm32/SDV_Corner/PC/build-motor/CMakeFiles/LEDControl_autogen.dir

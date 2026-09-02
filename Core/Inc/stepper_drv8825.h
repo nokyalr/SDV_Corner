@@ -77,4 +77,8 @@ void Stepper_ControlUpdate(stepper_t *motor);
 void Stepper_TimerCallback(stepper_t *motor);
 int32_t positionSensor();
 
+/* ============ Qt CONTROL API ============ */
+float stepperQtGetActualAngle(void);
+void stepperRunQt(float angleReference);
+
 #endif /* INC_STEPPER_DRV8825_H_ */

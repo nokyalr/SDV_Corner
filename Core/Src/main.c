@@ -884,7 +884,16 @@ void steering_init(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	  Stepper_ControlUpdate(&stepper1);
+	  // Auto mode: Use setpoint from VCU data or ADC
+	  // Qt mode: Use stepperQtAngle from UDP command
+	  if (stepperQtControl)
+	  {
+		  stepperRunQt(stepperQtAngle);
+	  }
+	  else
+	  {
+		  Stepper_ControlUpdate(&stepper1);
+	  }
 	  vTaskDelay(cycle);
   }
   /* USER CODE END steering_init */

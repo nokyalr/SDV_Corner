@@ -26,6 +26,7 @@
 #include "main.h"
 #include "udpclient.h"
 #include "DCMotorControl.h"
+#include "stepper_drv8825.h"
 
 /* ===================== Static Objects ===================== */
 static struct netconn *conn;
@@ -57,6 +58,10 @@ int32_t data_Mzd = 0;
 uint16_t adcData = 0;
 volatile uint8_t motorQtControl = 0;
 volatile float motorQtReff = 0.0f;
+
+/* ============ Qt STEPPER CONTROL VARIABLES ============ */
+volatile uint8_t stepperQtControl = 0;
+volatile float stepperQtAngle = 0.0f;
 
 //Latency
 int Latency = 0;
@@ -187,29 +192,51 @@ static void led_command_thread(void *arg)
 
         char responseBuffer[48];
         const char *response = "ERR UNKNOWN COMMAND";
+        
         if (netbuf_data(command_buf, &payload, &payload_len) == ERR_OK &&
             payload_len < sizeof(command))
         {
             memcpy(command, payload, payload_len);
             command[payload_len] = '\0';
 
+            // LED PB0 commands
             if (strcmp(command, "PB0 ON") == 0)
             {
                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+                response = "OK";
             }
             else if (strcmp(command, "PB0 OFF") == 0)
             {
                 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+                response = "OK";
             }
             else if (strcmp(command, "PB0 TOGGLE") == 0)
             {
                 HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+                response = "OK";
             }
             else if (strcmp(command, "PB0 STATUS") == 0)
             {
                 /* Report the output state commanded by the STM32. */
                 response = (GPIOB->ODR & GPIO_PIN_0) ? "PB0 ON" : "PB0 OFF";
             }
+            // LED PB7 commands
+            else if (strcmp(command, "LED ON") == 0)
+            {
+                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+                response = "OK";
+            }
+            else if (strcmp(command, "LED OFF") == 0)
+            {
+                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+                response = "OK";
+            }
+            else if (strcmp(command, "LED TOGGLE") == 0)
+            {
+                HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+                response = "OK";
+            }
+            // Motor commands
             else if (strcmp(command, "MOTOR STATUS") == 0)
             {
                 snprintf(responseBuffer, sizeof(responseBuffer),
@@ -218,51 +245,66 @@ static void led_command_thread(void *arg)
                          (long)motorQtGetActualRpm());
                 response = responseBuffer;
             }
-            else
+            else if (strcmp(command, "MOTOR AUTO") == 0)
             {
-                char *endPtr = NULL;
-                float requestedRpm = 0.0f;
-                if (strcmp(command, "MOTOR AUTO") == 0)
+                motorQtControl = 0;
+                response = "OK";
+            }
+            else if (strncmp(command, "MOTOR ", 6) == 0)
+            {
+                if (strcmp(command, "MOTOR STOP") == 0)
                 {
-                    motorQtControl = 0;
+                    motorQtReff = 0.0f;
+                    motorQtControl = 1;
                     response = "OK";
                 }
-                else if (strncmp(command, "MOTOR ", 6) == 0)
+                else
                 {
-                    if (strcmp(command, "MOTOR STOP") == 0)
+                    char *endPtr = NULL;
+                    float requestedRpm = strtof(command + 6, &endPtr);
+                    if (endPtr != command + 6 && *endPtr == '\0' &&
+                        requestedRpm >= -120.0f && requestedRpm <= 120.0f)
                     {
-                        motorQtReff = 0.0f;
+                        motorQtReff = requestedRpm;
                         motorQtControl = 1;
                         response = "OK";
                     }
-                    else
-                    {
-                        requestedRpm = strtof(command + 6, &endPtr);
-                        if (endPtr != command + 6 && *endPtr == '\0' &&
-                            requestedRpm >= -120.0f && requestedRpm <= 120.0f)
-                        {
-                            motorQtReff = requestedRpm;
-                            motorQtControl = 1;
-                            response = "OK";
-                        }
-                    }
                 }
             }
-            if (strcmp(command, "LED ON") == 0)
-                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
-            else if (strcmp(command, "LED OFF") == 0)
-                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
-            else if (strcmp(command, "LED TOGGLE") == 0)
-                HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
-
-            if (strcmp(command, "PB0 ON") == 0 ||
-                strcmp(command, "PB0 OFF") == 0 ||
-                strcmp(command, "PB0 TOGGLE") == 0 ||
-                strcmp(command, "LED ON") == 0 ||
-                strcmp(command, "LED OFF") == 0 ||
-                strcmp(command, "LED TOGGLE") == 0)
+            // Stepper/Steering commands
+            else if (strcmp(command, "STEPPER STATUS") == 0)
             {
+                snprintf(responseBuffer, sizeof(responseBuffer),
+                         "STEPPER STATUS %ld %ld",
+                         (long)stepperQtAngle,
+                         (long)stepperQtGetActualAngle());
+                response = responseBuffer;
+            }
+            else if (strcmp(command, "STEPPER AUTO") == 0)
+            {
+                stepperQtControl = 0;
                 response = "OK";
+            }
+            else if (strncmp(command, "STEPPER ", 8) == 0)
+            {
+                if (strcmp(command, "STEPPER STOP") == 0)
+                {
+                    stepperQtAngle = 0.0f;
+                    stepperQtControl = 1;
+                    response = "OK";
+                }
+                else
+                {
+                    char *stepperEndPtr = NULL;
+                    float requestedAngle = strtof(command + 8, &stepperEndPtr);
+                    if (stepperEndPtr != command + 8 && *stepperEndPtr == '\0' &&
+                        requestedAngle >= -40.0f && requestedAngle <= 40.0f)
+                    {
+                        stepperQtAngle = requestedAngle;
+                        stepperQtControl = 1;
+                        response = "OK";
+                    }
+                }
             }
         }
 

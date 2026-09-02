@@ -16,9 +16,9 @@
 ../Core/Src/main.c:806:6:COM_init	56	static
 ../Core/Src/main.c:856:6:motor_init	16	static
 ../Core/Src/main.c:880:6:steering_init	24	static
-../Core/Src/main.c:900:6:setPointTask_init	16	static
-../Core/Src/main.c:923:6:GPIO_init	16	static
-../Core/Src/main.c:947:6:TCS_init	16	static
-../Core/Src/main.c:972:6:dataLogger_init	16	static
-../Core/Src/main.c:1005:6:HAL_TIM_PeriodElapsedCallback	16	static
-../Core/Src/main.c:1023:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:909:6:setPointTask_init	16	static
+../Core/Src/main.c:932:6:GPIO_init	16	static
+../Core/Src/main.c:956:6:TCS_init	16	static
+../Core/Src/main.c:981:6:dataLogger_init	16	static
+../Core/Src/main.c:1014:6:HAL_TIM_PeriodElapsedCallback	16	static
+../Core/Src/main.c:1032:6:Error_Handler	4	static,ignoring_inline_asm
