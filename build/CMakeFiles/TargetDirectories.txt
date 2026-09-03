@@ -1,0 +1,9 @@
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/LEDControl.dir
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/edit_cache.dir
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/rebuild_cache.dir
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/list_install_components.dir
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/install.dir
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/install/local.dir
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/install/strip.dir
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/LEDControl_autogen_timestamp_deps.dir
+/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/CMakeFiles/LEDControl_autogen.dir

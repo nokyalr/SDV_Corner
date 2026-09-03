@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -I/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/LEDControl_autogen/include -isystem /usr/include/qt6/QtCore -isystem /usr/include/qt6 -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtNetwork -g -mno-direct-extern-access -o CMakeFiles/LEDControl.dir/LEDControl_autogen/mocs_compilation.cpp.o -c /home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/LEDControl_autogen/mocs_compilation.cpp",
+  "file": "/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/LEDControl_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/LEDControl.dir/LEDControl_autogen/mocs_compilation.cpp.o"
+},
+{
+  "directory": "/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -I/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/LEDControl_autogen/include -isystem /usr/include/qt6/QtCore -isystem /usr/include/qt6 -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtNetwork -g -mno-direct-extern-access -o CMakeFiles/LEDControl.dir/main.cpp.o -c /home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/PC/LEDControl/main.cpp",
+  "file": "/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/PC/LEDControl/main.cpp",
+  "output": "CMakeFiles/LEDControl.dir/main.cpp.o"
+},
+{
+  "directory": "/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -I/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/build/LEDControl_autogen/include -isystem /usr/include/qt6/QtCore -isystem /usr/include/qt6 -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtNetwork -g -mno-direct-extern-access -o CMakeFiles/LEDControl.dir/mainwindow.cpp.o -c /home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/PC/LEDControl/mainwindow.cpp",
+  "file": "/home/norriee/Documents/Kuliah/pa/stm32/SDV_Corner/PC/LEDControl/mainwindow.cpp",
+  "output": "CMakeFiles/LEDControl.dir/mainwindow.cpp.o"
+}
+]
